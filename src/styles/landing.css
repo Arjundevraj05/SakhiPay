@@ -1,0 +1,78 @@
+body {
+    background: linear-gradient(to bottom, #ffffff, #fff7f0, #ffecd1); 
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* General Section Spacing */
+section {
+    padding: 40px 0; 
+    margin: 0 auto;  
+    max-width: 1200px; 
+}
+
+/* Features Section - Blended Background */
+.features {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 50px 20px; 
+    background: transparent;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+    margin-left: 75px;
+}
+
+
+/* Ensure Other Sections Use Consistent Spacing */
+.hero, .how-it-works, .testimonials {
+    background: transparent;
+    padding: 40px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-left: 75px;
+}
+.stats{
+    margin-left: 75px;
+}
+
+/* Features Content */
+.features-content {
+    max-width: 500px;
+    flex: 1;
+}
+
+.features-content h2 {
+    font-size: 2rem;
+    color: #ff8c00;
+    margin-bottom: 15px;
+}
+
+.features-image {
+    max-width: 30%;
+    flex-shrink: 0;
+    margin-left: 60px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    section {
+        padding: 30px 15px; 
+    }
+
+    .features {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 40px 15px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 250, 245, 0.9));
+    }
+
+    .features-image {
+        max-width: 60%;
+        margin-left: 0; 
+    }
+}

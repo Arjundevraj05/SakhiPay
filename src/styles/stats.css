@@ -1,0 +1,41 @@
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #CE965A, #F2B77E);
+    text-align: center;
+    color: white;
+}
+
+.stat-item {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Add a light vertical separator between items */
+.stat-item:not(:last-child) {
+    border-right: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.stat-item h2 {
+    font-size: 2.8rem;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 1rem;
+}
+
+.stat-icon {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 10px;
+}

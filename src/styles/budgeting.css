@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+.budgeting-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 25px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Bigger Budget & Expenses Headings */
+.budgeting {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 35px;
+  font-weight: bold;
+  color: #DC812E; /* Sakhi Pay Theme */
+}
+
+.transaction {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 26px;
+  font-weight: bold;
+  color: #DC812E; /* Sakhi Pay Theme */
+}
+
+/* Form Styling */
+.budget-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.budget-form input,
+.budget-form select {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #FF8C00;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+  background: white;
+  outline: none;
+}
+
+/* Glowing effect when typing */
+.budget-form input:focus,
+.budget-form select:focus {
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
+  border-color: #FF8C00;
+}
+
+.budget-form button {
+  background: #FF8C00;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.budget-form button:hover {
+  background: rgba(230, 136, 0, 1);
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.expense-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+
+.expense-table th, .expense-table td {
+  border: 1px solid #ddd;
+  padding: 14px;
+  text-align: left;
+}
+
+.expense-table th {
+  background: #FF8C00;
+  color: white;
+}
+
+.expense-table tbody tr:nth-child(even) {
+  background: #f8f8f8;
+}
+
+/* Bigger & Elegant Icons */
+.icon-category {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: black; /* Removed monotone orange */
+}
+
+/* Icons Retain Sakhi Pay Theme */
+.icon {
+  font-size: 28px;
+  color: rgba(255, 152, 0, 1);
+}
+
+/* Bigger Delete Icon */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 28px; /* Bigger dustbin icon */
+  color: red;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.delete-btn:hover {
+  color: darkred;
+  transform: scale(1.2);
+}
+
+/* Analyze Button - Modern, Gradient Look */
+.analyze-btn {
+  background: linear-gradient(135deg, #FF8C00, #DC812E);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.analyze-btn:hover {
+  background: linear-gradient(135deg, #DC812E, #FF8C00);
+  transform: translateY(-2px);
+}
+
+/* 🔥 Modern Expense Analysis Styling */
+/* 🔥 Soft & Elegant Expense Analysis Styling */
+.analysis-container {
+  background: #FFFDF8; /* Soft, neutral background */
+  padding: 20px;
+  border-left: 6px solid #D4A373; /* Subtle warm brown */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  text-align: center;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Analysis Title */
+.analysis-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #5A4F3E; /* Muted dark brown */
+  margin-bottom: 15px;
+}
+
+/* Content Box with a Soft Touch */
+.analysis-content {
+  background: rgba(255, 255, 255, 0.8); /* Soft translucent white */
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  border: 1px solid #EAD7BB; /* Gentle warm tone */
+}
+
+/* Text Styling */
+.analysis-item {
+  font-size: 18px;
+  font-weight: 500;
+  color: #6B5B46; /* Subtle dark brown */
+  margin: 10px 0;
+}
+
+/* Highlight Key Insights */
+.analysis-item strong {
+  font-weight: bold;
+  color: #B08968; /* Softer warm brown */
+}
+
+/* Subtle Fade-in Effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

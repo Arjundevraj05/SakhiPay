@@ -1,0 +1,79 @@
+/* Insights Panel */
+.insights-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background: #fff !important;
+    border-left: 2px solid rgba(225, 143, 56, 0.3);
+    padding: 20px;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 200;
+}
+
+/* Header with Gradient */
+.insights-header {
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Poppins',serif;
+    font-weight: bold;
+    color: #e67e22;
+}
+
+/* Insight Card */
+.insight-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.insight-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon Styling */
+.insight-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+}
+
+/* Custom Colors for Icons */
+.due {
+    color: #e67e22; 
+}
+
+.alert {
+    color: #e74c3c; 
+}
+
+.assist {
+    color: #3498db; 
+}
+
+.language {
+    color: #2ecc71; 
+}
+
+/* Text Styling */
+.insight-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.insight-text {
+    font-size: 14px;
+    color: #666;
+}
+
