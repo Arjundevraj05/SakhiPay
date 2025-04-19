@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 src/.env
 
-src/conf
-src/utils
+src/conf/conf.js
+src/utils/analyzeExpenses.js
