@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 src/.env
 
-/conf/
-/utils/
+src/conf
+src/utils
