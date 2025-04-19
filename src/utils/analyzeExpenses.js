@@ -2,7 +2,7 @@ import axios from "axios";
 import service from "../appwrite/config.js"; // Ensure this path is correct
 
 const API_URL = "https://api-inference.huggingface.co/models/ProsusAI/finbert";
-const API_KEY = "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"; // Use environment variable
+const API_KEY = process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY; // Use environment variable
 
 export const analyzeExpenses = async () => {
   try {
