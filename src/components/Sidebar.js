@@ -4,9 +4,12 @@ import {
   HomeIcon,
   CreditCardIcon,
   BookOpenIcon,
+  ClipboardListIcon,
+  QrcodeIcon,
   MenuAlt2Icon,
   XIcon,
   UserCircleIcon,
+  LogoutIcon,
 } from "@heroicons/react/outline";
 import authenticationService from "../appwrite/auth"; 
 import "../styles/sidebar.css";
@@ -21,7 +24,8 @@ const Sidebar = () => {
     { name: "Dashboard", icon: HomeIcon, href: "/dashboard" },
     { name: "Budgeting", icon: CreditCardIcon, href: "/budgeting" },
     { name: "Education", icon: BookOpenIcon, href: "/education" },
-    { name: "Schemes", icon: BookOpenIcon, href: "/schemes" },
+    { name: "Schemes", icon: ClipboardListIcon, href: "/schemes" },
+    { name: "UPI Simulation", icon: QrcodeIcon, href: "/upi_simulation" },
   ];
 
   // Fetch current user data on mount

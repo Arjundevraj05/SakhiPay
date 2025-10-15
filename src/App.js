@@ -19,23 +19,26 @@ const App = () => {
 };
 
 // Handles conditional layout
-const MainRoutes = () => {
-  const location = useLocation();
-  const showLayout = ["/dashboard", "/budgeting", "/education", "/upi_simulation", "/schemes"].includes(location.pathname);
+  const MainRoutes = () => {
+    const location = useLocation();
+    const showLayout = ["/dashboard", "/budgeting", "/education", "/upi_simulation", "/schemes"].includes(location.pathname);
 
-  useEffect(() => {
-    // Check if Google Translate script is already added
-    if (!document.getElementById("google-translate-script")) {
+    useEffect(() => {
+    const scriptId = "google-translate-script";
+
+    // Add script only once
+    if (!document.getElementById(scriptId)) {
       const script = document.createElement("script");
-      script.id = "google-translate-script";
+      script.id = scriptId;
       script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       script.async = true;
       document.body.appendChild(script);
     }
 
-    // Define the function globally
+    // Define init only once
     window.googleTranslateElementInit = () => {
-      if (window.google) {
+      // Wait until google.translate exists
+      if (window.google && window.google.translate && window.google.translate.TranslateElement) {
         new window.google.translate.TranslateElement(
           {
             pageLanguage: "en",
@@ -44,18 +47,11 @@ const MainRoutes = () => {
           },
           "google_translate_element"
         );
+      } else {
+        console.warn("Google Translate not yet ready. Retrying...");
+        setTimeout(window.googleTranslateElementInit, 500);
       }
     };
-
-    // Wait for the script to load before calling `googleTranslateElementInit`
-    const checkGoogle = setInterval(() => {
-      if (window.google && window.google.translate) {
-        clearInterval(checkGoogle);
-        window.googleTranslateElementInit();
-      }
-    }, 500);
-
-    return () => clearInterval(checkGoogle); // Cleanup on unmount
   }, []);
 
   return (
