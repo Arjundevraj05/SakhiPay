@@ -1,7 +1,6 @@
 .layout-container {
     display: flex;
     height: 100vh;
-    margin-left: 50px;
   }
   
   .sidebar {
@@ -14,6 +13,8 @@
   .main-content {
     flex: 1;
     padding: 20px;
+    margin-left: 250px; /* account for fixed left sidebar */
+    margin-right: 280px; /* account for fixed right insights panel */
   }
   
   .insights-panel {

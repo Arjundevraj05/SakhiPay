@@ -13,6 +13,7 @@
     flex-direction: column;
     gap: 15px;
     z-index: 200;
+    overflow-y: auto;
 }
 
 /* Header with Gradient */
@@ -22,6 +23,18 @@
     font-family: 'Poppins',serif;
     font-weight: bold;
     color: #e67e22;
+}
+
+/* Section Titles */
+.insights-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 10px 0 5px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
 }
 
 /* Insight Card */
@@ -41,6 +54,12 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* EMI Reminder Cards */
+.emi-reminder {
+    border-left: 4px solid #e67e22;
+    background: linear-gradient(135deg, #fff5f0, #fff0e6);
+}
+
 /* Icon Styling */
 .insight-icon {
     width: 28px;
@@ -57,6 +76,10 @@
     color: #e74c3c; 
 }
 
+.emi {
+    color: #e67e22;
+}
+
 .assist {
     color: #3498db; 
 }
@@ -70,10 +93,17 @@
     font-size: 16px;
     font-weight: bold;
     color: #333;
+    margin: 0 0 4px 0;
 }
 
 .insight-text {
     font-size: 14px;
     color: #666;
+    margin: 0 0 2px 0;
 }
 
+.insight-meta {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
+}

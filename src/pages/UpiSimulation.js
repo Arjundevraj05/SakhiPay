@@ -143,34 +143,83 @@ const CustomerSimulation = () => {
     setStatus("PENDING");
   };
 
-  const proceedPayment = () => {
+  const proceedPayment = async () => {
     if (!pin) return alert("Enter PIN (try 1234)");
 
-    const success = pin === "1234" && Number(amount) <= balance;
-    setStatus(success ? "SUCCESS" : "FAILED");
+    setStatus("PROCESSING");
 
-    if (success) {
-      setBalance((prev) => prev - Number(amount));
-      successSound.play();
+    try {
+      // First initiate the transaction
+      const initiateResponse = await fetch("http://localhost:4000/api/txn/initiate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fromVpa: currentVpa,
+          toVpa: toVpa,
+          amount: Number(amount),
+        }),
+      });
+
+      const initiateData = await initiateResponse.json();
+      
+      if (!initiateResponse.ok) {
+        throw new Error(initiateData.error || "Failed to initiate transaction");
+      }
+
+      // Then verify the PIN
+      const verifyResponse = await fetch("http://localhost:4000/api/txn/verify-pin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          txnId: initiateData.txnId,
+          pin: pin,
+        }),
+      });
+
+      const verifyData = await verifyResponse.json();
+      
+      if (!verifyResponse.ok) {
+        throw new Error(verifyData.error || "Failed to verify PIN");
+      }
+
+      // Wait for the transaction to complete (2 seconds as per server logic)
+      setTimeout(() => {
+        const success = pin === "1234" && Number(amount) <= balance;
+        setStatus(success ? "SUCCESS" : "FAILED");
+
+        if (success) {
+          setBalance((prev) => prev - Number(amount));
+          successSound.play();
+        }
+
+        setTransactions((prev) => [
+          {
+            id: initiateData.txnId,
+            from: currentVpa,
+            to: toVpa,
+            amount: Number(amount),
+            status: success ? "SUCCESS" : "FAILED",
+            timestamp: new Date().toLocaleString(),
+          },
+          ...prev,
+        ]);
+
+        // Reset fields
+        setTxnId(null);
+        setToVpa("");
+        setAmount("");
+        setPin("");
+      }, 2500); // Wait 2.5 seconds for server processing
+
+    } catch (error) {
+      console.error("Payment error:", error);
+      setStatus("FAILED");
+      setError(error.message);
     }
-
-    setTransactions((prev) => [
-      {
-        id: txnId,
-        from: currentVpa,
-        to: toVpa,
-        amount,
-        status: success ? "SUCCESS" : "FAILED",
-        timestamp: new Date().toLocaleString(),
-      },
-      ...prev,
-    ]);
-
-    // Reset fields
-    setTxnId(null);
-    setToVpa("");
-    setAmount("");
-    setPin("");
   };
 
   return (

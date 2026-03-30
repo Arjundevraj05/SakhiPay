@@ -12,37 +12,47 @@ export class Service {
         this.databases = new Databases(this.client); 
     }
 
-    async createExpense({ userId, amount, category, description, date }) {
+    async createExpense({ userId, amount, category, description, date, fileUrl }) {
         try {
+            const expenseData = {
+                userId,
+                amount,
+                category,
+                description,
+                date // Adding date field
+            };
+            
+            // Note: fileUrl will be stored in local state for now
+            // until we add it to the Appwrite collection schema
+            
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 ID.unique(),
-                {
-                    userId,
-                    amount,
-                    category,
-                    description,
-                    date // Adding date field
-                }
+                expenseData
             );
         } catch (error) {
             throw error;
         }
     }
 
-    async updateExpense(documentId, { amount, category, description, date }) {
+    async updateExpense(documentId, { amount, category, description, date, fileUrl }) {
         try {
+            const updateData = {
+                amount,
+                category,
+                description,
+                date // Ensure date is included
+            };
+            
+            // Note: fileUrl will be stored in local state for now
+            // until we add it to the Appwrite collection schema
+            
             return await this.databases.updateDocument( 
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 documentId, 
-                {
-                    amount,
-                    category,
-                    description,
-                    date // Ensure date is included
-                }
+                updateData
             );
         } catch (error) {
             throw error;

@@ -120,3 +120,8 @@
 .scheme_scheme-card a:hover {
     background: #FF5722;
 }
+@media (min-width: 1024px) {
+        .scheme_container {
+            padding-left: 100px;
+        }
+    }

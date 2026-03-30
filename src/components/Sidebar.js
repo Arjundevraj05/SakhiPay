@@ -26,6 +26,7 @@ const Sidebar = () => {
     { name: "Education", icon: BookOpenIcon, href: "/education" },
     { name: "Schemes", icon: ClipboardListIcon, href: "/schemes" },
     { name: "UPI Simulation", icon: QrcodeIcon, href: "/upi_simulation" },
+    { name: "EMI Manager", icon: CreditCardIcon, href: "/emi" }
   ];
 
   // Fetch current user data on mount
