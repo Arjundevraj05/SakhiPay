@@ -1,0 +1,26 @@
+.layout-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background: #ff8c00;
+    color: white;
+    padding: 20px;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 250px; /* account for fixed left sidebar */
+    margin-right: 280px; /* account for fixed right insights panel */
+  }
+  
+  .insights-panel {
+    width: 250px;
+    background: #222;
+    color: white;
+    padding: 20px;
+  }
+  

@@ -1,0 +1,98 @@
+
+
+.how-it-works {
+    padding: 50px 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #b07638;
+    margin-bottom: 30px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: nowrap; 
+}
+
+.step-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 400px; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.step-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.step-card img {
+    width: 120px; 
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.step-card h3 {
+    font-size: 1.3rem; 
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.step-card p {
+    font-size: 0.95rem;
+    color: #555;
+    max-width: 85%;
+}
+
+/* Highlighted Step */
+.highlighted {
+    background: #E2A86E;
+    color: white;
+}
+
+.highlighted h3,
+.highlighted p {
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .steps-container {
+        flex-wrap: wrap; 
+        gap: 15px;
+    }
+
+    .step-card {
+        width: 280px;
+        height: 380px;
+        padding: 25px;
+    }
+
+    .step-card img {
+        width: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .steps-container {
+        flex-direction: column;
+    }
+
+    .step-card {
+        width: 90%;
+        height: auto;
+    }
+}

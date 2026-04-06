@@ -1,0 +1,161 @@
+.feature-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: transparent;
+  width: 100%;
+}
+
+.feature_heading {
+  color: #b66401;
+  font-size: 3.5rem;
+  font-family: 'Poppins', serif;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.feature-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 3px solid #FF8C00; 
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  flex: 0 1 280px;
+  height: 120px;
+  box-shadow: 0px 3px 8px rgba(255, 140, 0, 0.3);
+}
+
+/* Glowing effect on hover */
+.feature-card:hover {
+  box-shadow: 0px 4px 20px rgba(255, 140, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.h2_heading{
+  font-family:'Poppins',serif;
+}
+.feature-icon {
+  font-size: 10rem;
+  color: #FF8C00;
+}
+.inner-content{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50px;
+}
+.amount {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Charts Wrapper */
+.chart-container-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 2rem;
+  align-items: stretch;
+}
+
+/* Chart Cards with Equal Heights */
+.chart-container,
+.bar-chart-container,
+.line-chart-container {
+  flex: 1 1 400px;
+  min-width: 380px;
+  max-width: 400px;
+  height: 380px; 
+  text-align: center;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 3px solid #FF8C00;
+  box-shadow: 0px 3px 8px rgba(255, 140, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Glowing effect on chart cards */
+.chart-container:hover,
+.bar-chart-container:hover,
+.line-chart-container:hover {
+  box-shadow: 0px 5px 20px rgba(255, 140, 0, 0.6);
+  transform: scale(1.05);
+}
+
+/* Properly Centered Pie Chart */
+.chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Ensuring chart headings are consistent */
+.chart-heading {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Bringing back the expense key */
+.expense-key {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.expense-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.expense-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+/* Responsive Fix */
+@media (max-width: 800px) {
+  .feature-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature-card {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .chart-container,
+  .bar-chart-container,
+  .line-chart-container {
+    min-width: 100%;
+  }
+}

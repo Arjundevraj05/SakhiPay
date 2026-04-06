@@ -1,0 +1,239 @@
+/* EMI Guide Styles */
+.emi-guide {
+  margin-bottom: 24px;
+}
+
+.emi-guide-toggle {
+  width: 100%;
+  background: #ffffff; /* lighten the toggle bar to reduce orange saturation */
+  color: #2d3748;
+  border: 1px solid #ffd1a6; /* soft orange border */
+  border-radius: 12px;
+  padding: 18px 22px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: relative;
+}
+
+.emi-guide-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  background: #fffaf2; /* subtle warm tint on hover */
+}
+
+/* Slim orange accent to keep brand color without heavy fill */
+.emi-guide-toggle::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  background: linear-gradient(135deg, #ff8c00, #ff6a2a);
+}
+
+.guide-toggle-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-left: 150px;
+}
+
+/* Ensure the title and subtext stack neatly and align vertically */
+.guide-toggle-content > div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  max-width: 100%;
+  gap: 2px;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.guide-toggle-content h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #e27817; /* headline in warm orange */
+}
+
+.guide-toggle-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4a5568;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.guide-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: auto; /* keep icon aligned to the right */
+  color: #ff8c00;
+}
+
+.emi-guide-content {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.guide-intro {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.guide-intro h2 {
+  color: #2d3748;
+  font-size: 1.8rem;
+  margin: 0 0 8px 0;
+}
+
+.guide-intro p {
+  color: #4a5568;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.guide-sections {
+  display: grid;
+  gap: 24px;
+}
+
+.guide-section {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid #ff8c00;
+}
+
+.guide-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.guide-section-icon {
+  width: 24px;
+  height: 24px;
+  color: #ff8c00;
+  margin-right: 12px;
+}
+
+.guide-section-header h3 {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.guide-section-content {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.guide-section-content p {
+  margin: 0 0 12px 0;
+}
+
+.guide-section-content ul {
+  margin: 12px 0;
+  padding-left: 20px;
+}
+
+.guide-section-content li {
+  margin-bottom: 8px;
+}
+
+.guide-example {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.guide-example h4 {
+  color: #ff8c00;
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+
+.guide-tip {
+  background: linear-gradient(135deg, #fff5f0, #fff0e6);
+  border: 1px solid #ff8c00;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.guide-tip h4 {
+  color: #ff8c00;
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+
+.formula-box {
+  background: #f0f4f8;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  font-family: 'Courier New', monospace;
+}
+
+.formula-box p {
+  margin: 0 0 8px 0;
+}
+
+.formula-box ul {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.guide-footer {
+  background: linear-gradient(135deg, #f0fff4, #e6fffa);
+  border: 1px solid #68d391;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.guide-footer h4 {
+  color: #2f855a;
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+}
+
+.guide-footer p {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .emi-guide-content {
+    padding: 16px;
+  }
+  
+  .guide-intro h2 {
+    font-size: 1.5rem;
+  }
+  
+  .guide-section {
+    padding: 16px;
+  }
+}

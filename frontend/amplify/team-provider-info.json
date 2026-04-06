@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sakhipay-dev-38b2c-authRole",
+      "UnauthRoleArn": "arn:aws:iam::948532068079:role/amplify-sakhipay-dev-38b2c-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::948532068079:role/amplify-sakhipay-dev-38b2c-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-sakhipay-dev-38b2c-deployment",
+      "UnauthRoleName": "amplify-sakhipay-dev-38b2c-unauthRole",
+      "StackName": "amplify-sakhipay-dev-38b2c",
+      "StackId": "arn:aws:cloudformation:ap-south-1:948532068079:stack/amplify-sakhipay-dev-38b2c/2a282720-af7e-11f0-86a9-0a1e2780c65d",
+      "AmplifyAppId": "d2ogdd2npcgr2i"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2ogdd2npcgr2i",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}

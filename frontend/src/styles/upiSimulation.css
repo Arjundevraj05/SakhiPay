@@ -1,0 +1,280 @@
+/* --- Import Poppins Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS Variables for the Theme --- */
+:root {
+  --theme-primary: #FF8C00;      
+  --theme-secondary: #DC812E;   
+  --theme-glow: rgba(255, 152, 0, 0.6);
+  --background-color: #ffffff;
+  --container-background: #f5f5f5;
+  --text-primary: #333;
+  --text-secondary: #555;
+  --border-color: #ddd;
+  --tab-active-shadow: rgba(255, 140, 0, 0.4);
+}
+
+/* --- Global & Body Styles --- */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+}
+
+/* --- Main Wrapper --- */
+.upi-sim-wrapper {
+  max-width: 800px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 30px;
+  background: var(--container-background);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+/* --- Main Headings --- */
+.upi-sim-wrapper h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--theme-secondary);
+  margin-bottom: 25px;
+}
+
+/* --- Container Headings --- */
+.upi-sim-wrapper .upi-sim-container h3 {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--theme-secondary);
+  margin-bottom: 15px;
+}
+
+.upi-sim-wrapper .upi-sim-container p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+/* --- Simulation Mode Selector --- */
+.upi-sim-wrapper .simulation-mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+/* --- Tab Labels --- */
+.upi-sim-wrapper .simulation-mode-selector label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--theme-primary);
+  border: 2px solid var(--theme-primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Hide the actual radio button */
+.upi-sim-wrapper .simulation-mode-selector input[type="radio"] {
+  display: none;
+}
+
+/* --- Active Tab Styling --- */
+.upi-sim-wrapper .simulation-mode-selector input[type="radio"]:checked + span {
+  background: var(--theme-primary);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 24px;
+  box-shadow: none; /* remove heavy shadows */
+  border: 2px solid var(--theme-primary);
+  transition: all 0.2s ease;
+  /* subtle bottom border indicator */
+  position: relative;
+}
+
+.upi-sim-wrapper .simulation-mode-selector input[type="radio"]:checked + span::after {
+  display: none;
+}
+
+
+
+/* --- Form Styling --- */
+.upi-sim-wrapper .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.upi-sim-wrapper .form-group label {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+}
+
+.upi-sim-wrapper input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid var(--theme-primary);
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+  background: white;
+  outline: none;
+}
+
+.upi-sim-wrapper input:focus {
+  box-shadow: 0 0 12px var(--theme-glow);
+  border-color: var(--theme-primary);
+}
+
+/* --- Buttons --- */
+.upi-sim-wrapper button {
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.upi-sim-wrapper button:hover {
+  background: linear-gradient(135deg, var(--theme-secondary), var(--theme-primary));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Transaction Card --- */
+.upi-sim-wrapper .txn-card {
+  margin-top: 30px;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.upi-sim-wrapper .txn-card svg {
+  width: 180px !important;
+  height: 180px !important;
+  margin: 10px auto;
+  display: block;
+  animation: fadeInScale 0.5s forwards;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Payment Status --- */
+.upi-sim-wrapper p.success {
+  color: #28a745;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 15px;
+  animation: fadeInScale 0.3s forwards;
+}
+
+.upi-sim-wrapper p.failed {
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 15px;
+  animation: fadeInScale 0.3s forwards;
+}
+
+/* --- Video (Camera) --- */
+.upi-sim-wrapper video {
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  margin-top: 15px;
+  max-height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+.section-divider {
+  border: 0;
+  border-top: 2px solid #eee;
+  margin: 20px 0;
+}
+/* ====== Info Section (centered layout) ====== */
+/* ====== Info Section (centered layout) ====== */
+.info-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* space between boxes */
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+/* ====== Each Info Box ====== */
+.info-box {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 20px 40px;
+  min-width: 220px;
+  text-align: center;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.info-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ====== Typography ====== */
+.info-box h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.info-box p {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+/* ====== Responsive Design ====== */
+@media (max-width: 600px) {
+  .info-section {
+    gap: 20px;
+  }
+
+  .info-box {
+    min-width: 160px;
+    padding: 16px 24px;
+  }
+
+  .info-box p {
+    font-size: 18px;
+  }
+}
+
+
+
+

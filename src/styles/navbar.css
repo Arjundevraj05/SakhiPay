@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* General Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: white;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-right: 20px;
+}
+
+/* Logo Styling */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 70px;
+}
+
+.logo_image {
+    width: 80px;
+    height: auto;
+}
+
+.logo_text {
+    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    margin-right: 100px;
+}
+
+.nav-links li {
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+} 
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #FF9800;
+}
+
+/* Sign-In Link */
+.signin a {
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    margin-right: 20px;
+    text-decoration: none; 
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.signin a:hover {
+    color: #FF9800;
+}
+
+/* Sign-Up Button */
+.signup-btn {
+    color: #FF9800;
+    font-family: 'Poppins', sans-serif;
+    width: 115px;
+    border: 0.77px solid #FF9800;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 38px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 70px;
+    background-color: transparent;
+}
+
+/* Remove link styling inside Sign-Up Button */
+.signup-btn a {
+    text-decoration: none;
+    color: inherit;
+    display: block;  
+    width: 100%;
+    height: 100%;
+}
+
+.signup-btn:hover {
+    background-color: #FF9800;
+    color: white;
+    box-shadow: 0 0 15px #FF9800;
+}
+
+/* Google Translate Container */
+.translate-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 40px;
+    flex-direction: row !important;
+}
+
+/* Label Styling */
+.translate-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Custom Dropdown Styles */
+.goog-te-combo {
+    background: linear-gradient(45deg, #ff7b00, #ff4e00) !important; /* SakhiPay's Orange Gradient */
+    color: white !important;
+    border: none !important;
+    border-radius: 20px !important; /* Increases roundness */
+    padding: 10px 20px !important; /* Adds padding */
+    font-weight: bold !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    outline: none !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* On hover effect */
+.goog-te-combo:hover {
+    background: linear-gradient(45deg, #ff4e00, #ff7b00) !important; /* Reverse Gradient */
+    box-shadow: 0 0 10px rgba(255, 120, 0, 0.5) !important;
+}
+
+/* Hide Google Translate Branding */
+.goog-te-gadget {
+    font-size: 0px !important;
+}
+
+/* Remove the Google Translate icon */
+.goog-te-gadget img {
+    display: none !important;
+}
+
+/* Override Google styling */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner {
+    display: none !important;
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .signup-btn {
+        margin-top: 10px;
+    }
+}
