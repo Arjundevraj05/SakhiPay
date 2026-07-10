@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useUpi } from "../context/UPIContext";
 import { QRCodeCanvas } from "qrcode.react";
 import "../styles/upiSimulation.css";
-import { BrowserMultiFormatReader } from "@zxing/library";
 import PaymentResult from "../components/PaymentResult";
 
 const successSound = new Audio("/success.mp3");
@@ -47,6 +46,16 @@ function stopVideoStream(videoEl) {
   if (videoEl) {
     videoEl.srcObject = null;
   }
+}
+
+async function waitForVideoElement(ref, attempts = 24) {
+  for (let index = 0; index < attempts; index += 1) {
+    if (ref.current) {
+      return ref.current;
+    }
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+  }
+  return ref.current;
 }
 
 function buildQrValue(vendorVpa, amount, requestId) {
@@ -261,6 +270,7 @@ const CustomerSimulation = () => {
 
   const videoRef = useRef(null);
   const codeReaderRef = useRef(null);
+  const scannerActiveRef = useRef(false);
   const [scanMode, setScanMode] = useState(false);
   const [mode, setMode] = useState("scan");
   const [toVpa, setToVpa] = useState("");
@@ -282,23 +292,6 @@ const CustomerSimulation = () => {
     setError(null);
     refreshBalances();
   }, [refreshBalances]);
-
-  const closeScanner = useCallback(() => {
-    if (codeReaderRef.current) {
-      codeReaderRef.current.reset();
-      codeReaderRef.current = null;
-    }
-    stopVideoStream(videoRef.current);
-    setScanMode(false);
-    setScanHint("");
-  }, []);
-
-  const openScanner = () => {
-    setError(null);
-    setFailureReason("");
-    setScanHint("Requesting camera access…");
-    setScanMode(true);
-  };
 
   const applyScannedPayment = useCallback(
     (parsed) => {
@@ -329,88 +322,76 @@ const CustomerSimulation = () => {
     [vendorVpa]
   );
 
-  useEffect(() => {
-    if (!scanMode) return undefined;
+  const closeScanner = useCallback(() => {
+    scannerActiveRef.current = false;
+    if (codeReaderRef.current) {
+      codeReaderRef.current.reset();
+      codeReaderRef.current = null;
+    }
+    stopVideoStream(videoRef.current);
+    setScanMode(false);
+    setScanHint("");
+  }, []);
 
-    let active = true;
-    const videoEl = videoRef.current;
-    const codeReader = new BrowserMultiFormatReader();
-    codeReaderRef.current = codeReader;
+  const openScanner = async () => {
+    if (scannerActiveRef.current) return;
 
-    const startScanner = async () => {
-      await new Promise((resolve) => window.setTimeout(resolve, 50));
+    setError(null);
+    setFailureReason("");
+    setScanHint("Requesting camera access…");
+    setScanMode(true);
+    scannerActiveRef.current = true;
 
-      if (!active || !videoEl) {
-        setError("Could not start camera preview. Please try again.");
-        setScanMode(false);
-        return;
+    try {
+      const videoEl = await waitForVideoElement(videoRef);
+      if (!videoEl) {
+        throw new Error("Could not start camera preview. Please try again.");
       }
 
-      try {
-        if (!navigator.mediaDevices?.getUserMedia) {
-          throw new Error("Camera is not supported in this browser.");
-        }
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error("Camera is not supported in this browser.");
+      }
 
-        let preferredDevice = null;
-        try {
-          const devices = await codeReader.listVideoInputDevices();
-          preferredDevice =
-            devices.find((device) => /back|rear|environment/i.test(device.label))?.deviceId ||
-            devices.find((device) =>
-              /front|user|facetime|integrated|webcam|hd camera|camera/i.test(device.label)
-            )?.deviceId ||
-            devices[0]?.deviceId ||
-            null;
-        } catch {
-          preferredDevice = null;
-        }
+      const { BrowserMultiFormatReader } = await import("@zxing/library");
+      const codeReader = new BrowserMultiFormatReader();
+      codeReaderRef.current = codeReader;
 
-        setScanHint("Point your camera at the vendor UPI QR code");
+      setScanHint("Point your camera at the vendor UPI QR code");
 
-        await codeReader.decodeFromVideoDevice(
-          preferredDevice,
-          videoEl,
-          (result, err) => {
-            if (!active) return;
+      await codeReader.decodeFromVideoDevice(
+        null,
+        videoEl,
+        (result, err) => {
+          if (!scannerActiveRef.current) return;
 
-            if (result) {
-              const parsed = parseUpiQr(result.getText());
-              if (applyScannedPayment(parsed)) {
-                setScanHint("QR scanned successfully!");
-                closeScanner();
-              }
-            }
-
-            if (
-              err &&
-              err.name !== "NotFoundException" &&
-              err.name !== "ChecksumException" &&
-              err.name !== "FormatException"
-            ) {
-              setError(err.message || "Camera scanning error.");
+          if (result) {
+            const parsed = parseUpiQr(result.getText());
+            if (applyScannedPayment(parsed)) {
+              setScanHint("QR scanned successfully!");
+              closeScanner();
             }
           }
-        );
-      } catch (cameraError) {
-        setError(
-          cameraError.message ||
-            "Camera permission denied. Allow camera access in your browser and try again."
-        );
-        setScanMode(false);
-      }
-    };
 
-    startScanner();
+          if (
+            err &&
+            err.name !== "NotFoundException" &&
+            err.name !== "ChecksumException" &&
+            err.name !== "FormatException"
+          ) {
+            setError(err.message || "Camera scanning error.");
+          }
+        }
+      );
+    } catch (cameraError) {
+      setError(
+        cameraError.message ||
+          "Camera permission denied. Allow camera access in your browser and try again."
+      );
+      closeScanner();
+    }
+  };
 
-    return () => {
-      active = false;
-      if (codeReaderRef.current) {
-        codeReaderRef.current.reset();
-        codeReaderRef.current = null;
-      }
-      stopVideoStream(videoEl);
-    };
-  }, [scanMode, closeScanner, applyScannedPayment]);
+  useEffect(() => () => closeScanner(), [closeScanner]);
 
   const manualPay = () => {
     const payAmount = Number(amount);
