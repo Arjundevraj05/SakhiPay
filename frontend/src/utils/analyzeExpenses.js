@@ -29,7 +29,7 @@ export const analyzeExpenses = async () => {
     return {
       error: `Error fetching analysis: ${
         error.response?.data?.error ||
-        "Unable to reach analysis server. Start backend on port 4000."
+        "Unable to reach analysis server. Check that the API is deployed and reachable."
       }`,
     };
   }
