@@ -10,34 +10,171 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <title>SakhiPay</title>
+    <style>
+      html {
+        margin-top: 0 !important;
+      }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+      body {
+        top: 0 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        position: static !important;
+      }
+
+      body.translated-ltr,
+      body.translated-rtl {
+        top: 0 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        position: static !important;
+      }
+
+      .goog-te-banner-frame,
+      .goog-te-banner-frame.skiptranslate,
+      .goog-te-menu-frame,
+      .goog-te-ftab,
+      #goog-gt-tt,
+      .goog-te-balloon-frame,
+      .goog-tooltip,
+      .goog-logo-link,
+      iframe.goog-te-banner-frame,
+      body > iframe.skiptranslate,
+      body > .skiptranslate {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        border: 0 !important;
+      }
+
+      #google_translate_element {
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .goog-te-gadget {
+        font-size: 0 !important;
+      }
+
+      .goog-te-gadget img {
+        display: none !important;
+      }
+    </style>
+    <script>
+      function hideGoogleTranslateUI() {
+        var selectors = [
+          ".goog-te-banner-frame",
+          ".goog-te-menu-frame",
+          ".goog-te-ftab",
+          "#goog-gt-tt",
+          ".goog-te-balloon-frame",
+          ".goog-tooltip",
+          ".goog-logo-link",
+          "iframe.goog-te-banner-frame",
+          "body > iframe.skiptranslate",
+          "body > .skiptranslate",
+        ];
+
+        selectors.forEach(function (selector) {
+          document.querySelectorAll(selector).forEach(function (element) {
+            element.style.setProperty("display", "none", "important");
+            element.style.setProperty("visibility", "hidden", "important");
+            element.style.setProperty("height", "0", "important");
+            element.style.setProperty("max-height", "0", "important");
+          });
+        });
+
+        document.documentElement.style.marginTop = "0px";
+        document.body.style.top = "0px";
+        document.body.style.marginTop = "0px";
+        document.body.style.paddingTop = "0px";
+        document.body.style.position = "static";
+        window.scrollTo(0, 0);
+      }
+
+      window.hideGoogleTranslateUI = hideGoogleTranslateUI;
+
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.location.hash.indexOf("googtrans") !== -1) {
+          window.history.replaceState(
+            null,
+            "",
+            window.location.pathname + window.location.search
+          );
+        }
+        hideGoogleTranslateUI();
+      });
+
+      window.addEventListener("load", function () {
+        hideGoogleTranslateUI();
+
+        var match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+        if (!match || !match[1] || match[1] === "en") return;
+
+        var attempts = 0;
+        var applyStoredLanguage = function () {
+          var select = document.querySelector("select.goog-te-combo");
+          if (select) {
+            select.value = match[1];
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+            hideGoogleTranslateUI();
+            return;
+          }
+          attempts += 1;
+          if (attempts < 20) {
+            window.setTimeout(applyStoredLanguage, 250);
+          }
+        };
+
+        applyStoredLanguage();
+      });
+
+      window.addEventListener("pageshow", hideGoogleTranslateUI);
+
+      document.addEventListener("DOMContentLoaded", function () {
+        new MutationObserver(hideGoogleTranslateUI).observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["style", "class"],
+        });
+      });
+    </script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages: "en,ta,ml,hi,te",
+            autoDisplay: false,
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="google_translate_element" aria-hidden="true"></div>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
@@ -23,37 +23,6 @@ const App = () => {
   const MainRoutes = () => {
     const location = useLocation();
     const showLayout = ["/dashboard", "/budgeting", "/education", "/upi_simulation", "/schemes", "/emi"].includes(location.pathname);
-
-    useEffect(() => {
-    const scriptId = "google-translate-script";
-
-    // Add script only once
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement("script");
-      script.id = scriptId;
-      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-
-    // Define init only once
-    window.googleTranslateElementInit = () => {
-      // Wait until google.translate exists
-      if (window.google && window.google.translate && window.google.translate.TranslateElement) {
-        new window.google.translate.TranslateElement(
-          {
-            pageLanguage: "en",
-            includedLanguages: "ta,ml,hi,te", // Tamil, Malayalam, Hindi, Telugu
-            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-          },
-          "google_translate_element"
-        );
-      } else {
-        console.warn("Google Translate not yet ready. Retrying...");
-        setTimeout(window.googleTranslateElementInit, 500);
-      }
-    };
-  }, []);
 
   return (
     <>

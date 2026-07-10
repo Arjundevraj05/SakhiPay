@@ -1,88 +1,173 @@
-import React, { useEffect, useState } from "react";
-import { Globe, ChevronDown } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Globe, ChevronDown, Loader2 } from "lucide-react";
+import {
+  applyGoogleTranslate,
+  getActiveLanguage,
+  hideGoogleTranslateUI,
+  waitForTranslationComplete,
+} from "../utils/googleTranslate";
 import "../styles/LanguageSelector.css";
 
-const LanguageSelector = () => {
+const LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "ta", label: "Tamil" },
+  { code: "ml", label: "Malayalam" },
+  { code: "hi", label: "Hindi" },
+  { code: "te", label: "Telugu" },
+];
+
+function triggerSelectChange(select) {
+  if (!select) return false;
+
+  select.dispatchEvent(new Event("change", { bubbles: true }));
+
+  if (document.createEvent) {
+    const event = document.createEvent("HTMLEvents");
+    event.initEvent("change", true, true);
+    select.dispatchEvent(event);
+  }
+
+  return true;
+}
+
+function getTranslateSelect() {
+  return document.querySelector("select.goog-te-combo");
+}
+
+const LanguageSelector = ({ variant = "navbar" }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const location = useLocation(); // Get current route
+  const [activeLang, setActiveLang] = useState("en");
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [loadingLabel, setLoadingLabel] = useState("Translating…");
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!document.getElementById("google-translate-script")) {
-      const script = document.createElement("script");
-      script.id = "google-translate-script";
-      script.src =
-        "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.async = true;
-      document.body.appendChild(script);
-    }
+    setActiveLang(getActiveLanguage());
+    hideGoogleTranslateUI();
 
-    // Function to initialize Google Translate
-    window.googleTranslateElementInit = () => {
-      if (window.google) {
-        new window.google.translate.TranslateElement(
-          {
-            pageLanguage: "en",
-            includedLanguages: "ta,ml,hi,te",
-            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-          },
-          "google_translate_element"
-        );
+    const observer = new MutationObserver(() => {
+      hideGoogleTranslateUI();
+    });
 
-        // Hide Google's default UI
-        setTimeout(() => {
-          document.querySelector(".goog-te-gadget")?.remove();
-        }, 1000);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style", "class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setShowDropdown(false);
       }
     };
 
-    // Wait for Google Translate to load
-    const checkGoogle = setInterval(() => {
-      if (window.google && window.google.translate) {
-        clearInterval(checkGoogle);
-        window.googleTranslateElementInit();
-      }
-    }, 500);
-
-    return () => clearInterval(checkGoogle);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Function to change language
-  const changeLanguage = (langCode) => {
-    const selectElement = document.querySelector(".goog-te-combo");
-    if (selectElement) {
-      selectElement.value = langCode;
-      selectElement.dispatchEvent(new Event("change"));
-    } else {
-      console.error("Google Translate dropdown not found!");
+  const applyLanguage = async (langCode) => {
+    const label = LANGUAGES.find((lang) => lang.code === langCode)?.label || "language";
+    setLoadingLabel(langCode === "en" ? "Switching to English…" : `Translating to ${label}…`);
+    setIsTranslating(true);
+    hideGoogleTranslateUI();
+
+    const tryCombo = () => {
+      const select = getTranslateSelect();
+      if (!select) return false;
+
+      const value = langCode === "en" ? "" : langCode;
+      const hasOption = Array.from(select.options).some((opt) => opt.value === value);
+      if (!hasOption && langCode !== "en") return false;
+
+      select.value = value;
+      triggerSelectChange(select);
+      applyGoogleTranslate(langCode, { reload: false });
+      return true;
+    };
+
+    if (!tryCombo()) {
+      let attempts = 0;
+      await new Promise((resolve) => {
+        const retry = setInterval(() => {
+          attempts += 1;
+          if (tryCombo() || attempts >= 15) {
+            clearInterval(retry);
+            if (attempts >= 15) {
+              applyGoogleTranslate(langCode, { reload: true });
+            }
+            resolve();
+          }
+        }, 200);
+      });
     }
+
+    await waitForTranslationComplete(langCode);
+    hideGoogleTranslateUI();
+    setActiveLang(langCode);
+    setIsTranslating(false);
   };
 
-  return (
-    <div className={`language-container ${location.pathname === "/" ? "navbar-lang" : "insight-lang"}`}>
-      <button className="language-button" onClick={() => setShowDropdown(!showDropdown)}>
-        <Globe size={20} className="icon" />
-        Language
-        <ChevronDown size={18} className="icon" />
-      </button>
+  const changeLanguage = (langCode) => {
+    setShowDropdown(false);
+    if (langCode === activeLang || isTranslating) return;
+    applyLanguage(langCode);
+  };
 
-      {showDropdown && (
-        <div className="language-dropdown">
-          <button className="lang-option" onClick={() => changeLanguage("ta")}>
-            🇮🇳 Tamil
-          </button>
-          <button className="lang-option" onClick={() => changeLanguage("ml")}>
-            🇮🇳 Malayalam
-          </button>
-          <button className="lang-option" onClick={() => changeLanguage("hi")}>
-            🇮🇳 Hindi
-          </button>
-          <button className="lang-option" onClick={() => changeLanguage("te")}>
-            🇮🇳 Telugu
-          </button>
-        </div>
-      )}
-    </div>
+  const activeLabel =
+    LANGUAGES.find((lang) => lang.code === activeLang)?.label || "Language";
+
+  return (
+    <>
+      {isTranslating &&
+        createPortal(
+          <div className="translate-loading-overlay" role="status" aria-live="polite">
+            <Loader2 className="translate-loading-spinner" size={36} />
+            <p className="translate-loading-text">{loadingLabel}</p>
+          </div>,
+          document.body
+        )}
+
+      <div
+        ref={containerRef}
+        className={`language-container ${variant === "navbar" ? "navbar-lang" : "insight-lang"}`}
+      >
+        <button
+          type="button"
+          className="language-button"
+          onClick={() => setShowDropdown((open) => !open)}
+          aria-expanded={showDropdown}
+          aria-haspopup="listbox"
+          disabled={isTranslating}
+        >
+          <Globe size={18} className="icon" />
+          {activeLang === "en" ? "Language" : activeLabel}
+          <ChevronDown size={16} className={`icon chevron ${showDropdown ? "open" : ""}`} />
+        </button>
+
+        {showDropdown && (
+          <div className="language-dropdown" role="listbox">
+            {LANGUAGES.map(({ code, label }) => (
+              <button
+                key={code}
+                type="button"
+                className={`lang-option ${activeLang === code ? "active" : ""}`}
+                onClick={() => changeLanguage(code)}
+                disabled={isTranslating}
+              >
+                {label}
+                {activeLang === code ? " ✓" : ""}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -67,9 +67,21 @@ const Budgeting = () => {
     const result = await analyzeExpenses();
     if (result.error) {
       setAnalysis(result.error);
-    } else {
-      setAnalysis(`Expense Sentiment: ${result.sentiment} \n Analysis: ${result.analysis}`);
+      return;
     }
+
+    setAnalysis(
+      [
+        `Summary: ${result.summary}`,
+        `Total Spent: ${result.total.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 })}`,
+        `Transactions: ${result.count}`,
+        `Average Expense: ${result.average.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 })}`,
+        `Top Category: ${result.topCategory}`,
+        `Category Breakdown: ${result.breakdownText}`,
+        `Expense Sentiment: ${result.sentiment}`,
+        `Analysis: ${result.analysis}`,
+      ].join("\n")
+    );
   };
 
   const handleSubmit = async (e) => {

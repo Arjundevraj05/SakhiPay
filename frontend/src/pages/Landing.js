@@ -12,10 +12,13 @@ import 'aos/dist/aos.css';
 
 const Landing = () => {
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         AOS.init({
-            duration: 1000, 
-            once: true, 
+            duration: 1000,
+            once: true,
             easing: 'ease-in-out',
+            offset: 0,
         });
     }, []);
 

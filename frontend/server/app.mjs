@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { InferenceClient } from "@huggingface/inference";
 import nodemailer from "nodemailer";
 
 dotenv.config();
@@ -106,9 +105,7 @@ app.get("/api/health", (_req, res) => {
     service: "SakhiPay API",
     email: hasGmailCredentials ? "gmail" : hasAwsCredentials ? "ses" : "simulated",
     s3: Boolean(process.env.AWS_S3_BUCKET),
-    huggingface: Boolean(
-      process.env.HUGGINGFACE_API_KEY || process.env.REACT_APP_HUGGINGFACE_API_KEY
-    ),
+    huggingface: false,
   });
 });
 
@@ -192,11 +189,106 @@ app.get("/api/s3/presign", async (req, res) => {
   }
 });
 
-const HUGGING_FACE_API_KEY =
-  process.env.HUGGINGFACE_API_KEY ||
-  process.env.REACT_APP_HUGGINGFACE_API_KEY ||
-  process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY;
-const hfClient = HUGGING_FACE_API_KEY ? new InferenceClient(HUGGING_FACE_API_KEY) : null;
+function toAmount(value) {
+  const amount = Number(value);
+  return Number.isFinite(amount) ? amount : 0;
+}
+
+function formatCurrency(amount) {
+  return `₹${amount.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+}
+
+function calculateExpenseAnalysis(expenses) {
+  if (!Array.isArray(expenses) || expenses.length === 0) {
+    return { error: "No expenses to analyze." };
+  }
+
+  const total = expenses.reduce((sum, expense) => sum + toAmount(expense.amount), 0);
+  const count = expenses.length;
+  const average = total / count;
+
+  const byCategory = expenses.reduce((groups, expense) => {
+    const category = expense.category || "Other";
+    groups[category] = (groups[category] || 0) + toAmount(expense.amount);
+    return groups;
+  }, {});
+
+  const categoryBreakdown = Object.entries(byCategory)
+    .map(([category, amount]) => ({
+      category,
+      amount,
+      share: total > 0 ? (amount / total) * 100 : 0,
+    }))
+    .sort((a, b) => b.amount - a.amount);
+
+  const topCategory = categoryBreakdown[0];
+  const discretionary = ["Shopping", "Entertainment", "Other"];
+  const essential = ["Food", "Transport", "Bills"];
+
+  const discretionaryTotal = categoryBreakdown
+    .filter((item) => discretionary.includes(item.category))
+    .reduce((sum, item) => sum + item.amount, 0);
+
+  const essentialTotal = categoryBreakdown
+    .filter((item) => essential.includes(item.category))
+    .reduce((sum, item) => sum + item.amount, 0);
+
+  const discretionaryShare = total > 0 ? (discretionaryTotal / total) * 100 : 0;
+  const essentialShare = total > 0 ? (essentialTotal / total) * 100 : 0;
+
+  let sentiment = "neutral";
+  let analysis = "";
+
+  if (topCategory && topCategory.share >= 55) {
+    sentiment = "negative";
+    analysis = `${topCategory.category} makes up ${topCategory.share.toFixed(
+      1
+    )}% of your spending (${formatCurrency(
+      topCategory.amount
+    )}). Try setting a monthly cap for this category to balance your budget.`;
+  } else if (discretionaryShare >= 45) {
+    sentiment = "negative";
+    analysis = `Discretionary spending is ${discretionaryShare.toFixed(
+      1
+    )}% of your total (${formatCurrency(
+      discretionaryTotal
+    )}). Consider reducing non-essential purchases this month.`;
+  } else if (essentialShare >= 70 && average <= 1500) {
+    sentiment = "positive";
+    analysis =
+      "Your spending focuses on essentials and your per-transaction average looks controlled. Keep tracking weekly to maintain this habit.";
+  } else if (categoryBreakdown.length >= 3 && topCategory.share <= 40) {
+    sentiment = "positive";
+    analysis =
+      "Your expenses are spread across multiple categories, which usually means a balanced spending pattern.";
+  } else {
+    sentiment = "neutral";
+    analysis =
+      "Your spending pattern looks stable. Review your top categories and set small savings targets for the next month.";
+  }
+
+  const breakdownText = categoryBreakdown
+    .slice(0, 4)
+    .map(
+      (item) =>
+        `${item.category}: ${formatCurrency(item.amount)} (${item.share.toFixed(1)}%)`
+    )
+    .join(" | ");
+
+  return {
+    sentiment,
+    score: Number((sentiment === "positive" ? 0.78 : sentiment === "negative" ? 0.68 : 0.72).toFixed(2)),
+    total,
+    count,
+    average,
+    topCategory: topCategory?.category || "N/A",
+    breakdownText,
+    analysis,
+    summary: `You recorded ${count} expenses totalling ${formatCurrency(
+      total
+    )} (avg ${formatCurrency(average)} per expense).`,
+  };
+}
 
 function localExpenseSentiment(text) {
   const lower = text.toLowerCase();
@@ -231,56 +323,39 @@ function localExpenseSentiment(text) {
 
 app.post("/api/analyze-expenses", async (req, res) => {
   try {
-    const { text } = req.body || {};
-    if (!text || typeof text !== "string" || text.trim().length === 0) {
-      return res.status(400).json({ error: "Expense text is required for analysis." });
+    const { expenses, text } = req.body || {};
+
+    if (Array.isArray(expenses) && expenses.length > 0) {
+      return res.json(calculateExpenseAnalysis(expenses));
     }
 
-    if (!hfClient) {
+    if (!text || typeof text !== "string" || text.trim().length === 0) {
+      return res.status(400).json({ error: "Expense data is required for analysis." });
+    }
+
+    const parsedExpenses = [];
+    const amountMatches = text.matchAll(/₹(\d+(?:\.\d+)?)/g);
+    const categoryMatches = text.matchAll(/on ([A-Za-z]+)\./g);
+
+    const amounts = Array.from(amountMatches, (match) => Number(match[1]));
+    const categories = Array.from(categoryMatches, (match) => match[1]);
+
+    amounts.forEach((amount, index) => {
+      parsedExpenses.push({
+        amount,
+        category: categories[index] || "Other",
+      });
+    });
+
+    if (parsedExpenses.length === 0) {
       return res.json(localExpenseSentiment(text));
     }
 
-    const data = await hfClient.textClassification({
-      model: "ProsusAI/finbert",
-      inputs: text,
-    });
-
-    if (!Array.isArray(data) || data.length === 0) {
-      return res.status(502).json({ error: "Invalid response format from FinBERT." });
-    }
-
-    const highestConfidenceSentiment = data.reduce((prev, curr) =>
-      prev.score > curr.score ? prev : curr
-    );
-
-    let sentimentDescription = "";
-    switch (highestConfidenceSentiment?.label) {
-      case "positive":
-        sentimentDescription =
-          "Your spending behavior looks positive! It indicates a well-balanced financial approach.";
-        break;
-      case "neutral":
-        sentimentDescription =
-          "Your spending pattern is stable. Consider reviewing it periodically for financial health.";
-        break;
-      case "negative":
-        sentimentDescription =
-          "Your expenses might indicate financial stress. Try tracking and optimizing your spending.";
-        break;
-      default:
-        sentimentDescription =
-          "Analysis inconclusive. Try adding more expenses for better insights.";
-    }
-
-    return res.json({
-      sentiment: highestConfidenceSentiment?.label || "unknown",
-      score: highestConfidenceSentiment?.score ?? 0,
-      analysis: sentimentDescription,
-    });
+    return res.json(calculateExpenseAnalysis(parsedExpenses));
   } catch (error) {
     console.error("analyze-expenses error:", error.message);
     const fallback = localExpenseSentiment(String(req.body?.text || ""));
-    return res.json({ ...fallback, note: "Used local fallback after FinBERT error." });
+    return res.json(fallback);
   }
 });
 

@@ -89,15 +89,15 @@ function SignIn() {
             <div className="continue"><p>or continue with</p></div>
             <div className="social-login">
               <div className="social-icons">
-                <a href="#" className="social-icon">
-                  <img src="/images/google.png" alt="Google" />
-                </a>
-                <a href="#" className="social-icon">
-                  <img src="/images/facebook.png" alt="Facebook" />
-                </a>
-                <a href="#" className="social-icon">
-                  <img src="/images/apple.png" alt="Apple" />
-                </a>
+                <button type="button" className="social-icon" aria-label="Continue with Google">
+                  <img src="/images/google.png" alt="" />
+                </button>
+                <button type="button" className="social-icon" aria-label="Continue with Facebook">
+                  <img src="/images/facebook.png" alt="" />
+                </button>
+                <button type="button" className="social-icon" aria-label="Continue with Apple">
+                  <img src="/images/apple.png" alt="" />
+                </button>
               </div>
             </div>
           </form>
