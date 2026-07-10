@@ -1,3 +1,10 @@
+.landing-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffffff, #fff7f0, #ffecd1);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 .landing-page section {
   padding: clamp(24px, 4vw, 40px) clamp(16px, 4vw, 24px);
   margin: 0 auto;
@@ -14,4 +21,22 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.landing-page .hero,
+.landing-page .features,
+.landing-page .how-it-works,
+.landing-page .testimonials {
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .landing-page .features {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 250, 245, 0.9)
+    );
+    border-radius: 20px;
+  }
 }
