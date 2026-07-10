@@ -21,10 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.env*
-
-src/conf/conf.js
-# Remove analyzeExpenses.js from gitignore since we fixed the token issue
+.env
+!.env.example
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
