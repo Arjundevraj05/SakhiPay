@@ -57,19 +57,24 @@ function SignIn() {
 
             {/* Password Input */}
             <label>Password</label>
-            <div className="input-wrapper">
+            <div className="input-wrapper input-wrapper--password">
               <Lock className="icon" />
-              <input 
-                type={showPassword ? "text" : "password"} 
-                name="password" 
-                placeholder="●●●●●●" 
-                value={formData.password} 
-                onChange={handleChange} 
-                required 
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="●●●●●●"
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
-              <span onClick={() => setShowPassword(!showPassword)}>
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
                 {showPassword ? <EyeOff className="icon" /> : <Eye className="icon" />}
-              </span>
+              </button>
             </div>
 
             {/* Remember Me & Forgot Password */}

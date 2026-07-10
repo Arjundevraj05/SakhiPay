@@ -24,7 +24,7 @@
   box-shadow: 0 4px 12px rgba(255, 126, 95, 0.35);
 }
 
-.icon {
+.language-button .icon {
   color: white;
   flex-shrink: 0;
 }

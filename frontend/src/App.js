@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
+import PublicRoute from "./components/PublicRoute";
 import Dashboard from "./pages/Dashboard";
 import Budgeting from "./pages/Budgeting";
 import Education from "./pages/Education";
@@ -40,9 +41,30 @@ const App = () => {
         </Layout>
       ) : (
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/"
+            element={
+              <PublicRoute>
+                <LandingPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignIn />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
         </Routes>
       )}
     </>

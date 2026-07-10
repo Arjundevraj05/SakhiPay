@@ -360,10 +360,56 @@ app.post("/api/analyze-expenses", async (req, res) => {
 });
 
 const users = {
-  "arjun@sakhipay": { name: "Arjun", balance: 2500, email: "arjundevraj05@gmail.com" },
-  "eshita@sakhipay": { name: "Eshita", balance: 1800, email: "arjundevraj05@gmail.com" },
+  "arjun@sakhipay": { name: "Arjun", balance: 5000, email: "arjundevraj05@gmail.com" },
+  "eshita@sakhipay": { name: "Eshita Store", balance: 2500, email: "arjundevraj05@gmail.com" },
 };
 const txns = {};
+const paymentRequests = {};
+
+function getUser(vpa) {
+  return users[vpa] || null;
+}
+
+app.get("/api/upi/users", (_req, res) => {
+  res.json({
+    customerVpa: "arjun@sakhipay",
+    vendorVpa: "eshita@sakhipay",
+  });
+});
+
+app.post("/api/payment-request", (req, res) => {
+  const { vendorVpa, amount } = req.body || {};
+  const vendor = getUser(vendorVpa);
+  if (!vendor) {
+    return res.status(400).json({ error: "Invalid vendor VPA" });
+  }
+
+  const numAmount = Number(amount);
+  if (!Number.isFinite(numAmount) || numAmount <= 0) {
+    return res.status(400).json({ error: "Enter a valid amount" });
+  }
+
+  const requestId = uuidv4();
+  paymentRequests[requestId] = {
+    requestId,
+    vendorVpa,
+    amount: numAmount,
+    status: "WAITING",
+    txnId: null,
+    fromVpa: null,
+    createdAt: Date.now(),
+  };
+
+  res.json(paymentRequests[requestId]);
+});
+
+app.get("/api/payment-request/:requestId", (req, res) => {
+  const request = paymentRequests[req.params.requestId];
+  if (!request) {
+    return res.status(404).json({ error: "Payment request not found" });
+  }
+  res.json(request);
+});
 
 app.post("/api/register", (req, res) => {
   const { vpa, name, email } = req.body || {};
@@ -373,48 +419,136 @@ app.post("/api/register", (req, res) => {
 });
 
 app.post("/api/txn/initiate", (req, res) => {
-  const { fromVpa, toVpa, amount } = req.body || {};
-  if (!users[fromVpa] || !users[toVpa]) {
+  const { fromVpa, toVpa, amount, requestId } = req.body || {};
+  const fromUser = getUser(fromVpa);
+  const toUser = getUser(toVpa);
+
+  if (!fromUser || !toUser) {
     return res.status(400).json({ error: "Invalid VPA" });
   }
 
+  if (fromVpa === toVpa) {
+    return res.status(400).json({ error: "Cannot pay to the same VPA" });
+  }
+
+  const numAmount = Number(amount);
+  if (!Number.isFinite(numAmount) || numAmount <= 0) {
+    return res.status(400).json({ error: "Invalid amount" });
+  }
+
+  if (fromUser.balance < numAmount) {
+    return res.status(400).json({ error: "Insufficient balance" });
+  }
+
+  if (requestId) {
+    const request = paymentRequests[requestId];
+    if (!request || request.status !== "WAITING") {
+      return res.status(400).json({ error: "Invalid or expired payment request" });
+    }
+    if (request.vendorVpa !== toVpa || request.amount !== numAmount) {
+      return res.status(400).json({ error: "Payment details do not match QR" });
+    }
+  }
+
   const txnId = uuidv4();
-  txns[txnId] = { txnId, fromVpa, toVpa, amount: Number(amount), status: "PENDING" };
+  txns[txnId] = {
+    txnId,
+    fromVpa,
+    toVpa,
+    amount: numAmount,
+    requestId: requestId || null,
+    status: "PENDING",
+  };
+
+  if (requestId && paymentRequests[requestId]) {
+    paymentRequests[requestId].txnId = txnId;
+    paymentRequests[requestId].fromVpa = fromVpa;
+    paymentRequests[requestId].status = "PENDING";
+  }
+
   res.json({ txnId, status: "PENDING" });
+});
+
+app.get("/api/txn/:txnId", (req, res) => {
+  const txn = txns[req.params.txnId];
+  if (!txn) {
+    return res.status(404).json({ error: "Transaction not found" });
+  }
+  res.json(txn);
 });
 
 app.post("/api/txn/verify-pin", async (req, res) => {
   const { txnId, pin } = req.body || {};
   const txn = txns[txnId];
-  if (!txn) return res.status(404).json({ error: "Invalid txn" });
+  if (!txn) return res.status(404).json({ error: "Invalid transaction" });
+
+  if (txn.status !== "PENDING" && txn.status !== "PROCESSING") {
+    return res.json({ status: txn.status, txnId });
+  }
+
+  txn.status = "PROCESSING";
+  if (txn.requestId && paymentRequests[txn.requestId]) {
+    paymentRequests[txn.requestId].status = "PROCESSING";
+  }
+
+  res.json({ status: "PROCESSING", txnId });
 
   setTimeout(async () => {
-    if (pin === "1234" && users[txn.fromVpa].balance >= txn.amount) {
-      users[txn.fromVpa].balance -= txn.amount;
-      users[txn.toVpa].balance += txn.amount;
-      txn.status = "SUCCESS";
-      io?.emit("txn:update", { txnId, status: "SUCCESS" });
+    const fromUser = getUser(txn.fromVpa);
+    const toUser = getUser(txn.toVpa);
+    const succeeded =
+      pin === "1234" && fromUser && toUser && fromUser.balance >= txn.amount;
 
+    if (succeeded) {
+      fromUser.balance -= txn.amount;
+      toUser.balance += txn.amount;
+      txn.status = "SUCCESS";
+      txn.completedAt = Date.now();
+    } else {
+      txn.status = "FAILED";
+      txn.failureReason =
+        pin !== "1234" ? "Incorrect UPI PIN" : "Insufficient balance";
+      txn.completedAt = Date.now();
+    }
+
+    if (txn.requestId && paymentRequests[txn.requestId]) {
+      paymentRequests[txn.requestId].status = txn.status;
+    }
+
+    const payload = {
+      txnId: txn.txnId,
+      status: txn.status,
+      fromVpa: txn.fromVpa,
+      toVpa: txn.toVpa,
+      amount: txn.amount,
+      requestId: txn.requestId,
+      failureReason: txn.failureReason || null,
+      customerBalance: fromUser?.balance ?? null,
+      vendorBalance: toUser?.balance ?? null,
+    };
+
+    io?.emit("txn:update", payload);
+
+    if (succeeded) {
       try {
         await sendEmail({
           subject: `Payment Confirmation - SakhiPay`,
           html: `<p>Payment of ₹${txn.amount} from ${txn.fromVpa} to ${txn.toVpa} succeeded. Txn: ${txnId}</p>`,
-          to: users[txn.fromVpa].email,
+          to: fromUser.email,
         });
       } catch (emailError) {
         console.error("Failed to send txn email:", emailError.message);
       }
-    } else {
-      txn.status = "FAILED";
-      io?.emit("txn:update", { txnId, status: "FAILED" });
     }
   }, 2000);
-
-  res.json({ status: "PROCESSING" });
 });
 
 app.get("/api/balance/:vpa", (req, res) => {
-  res.json(users[req.params.vpa] || {});
+  const user = getUser(req.params.vpa);
+  if (!user) {
+    return res.status(404).json({ error: "VPA not found" });
+  }
+  res.json({ vpa: req.params.vpa, name: user.name, balance: user.balance });
 });
 
 export default app;

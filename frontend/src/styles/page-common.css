@@ -2,6 +2,7 @@
   --sidebar-width: 240px;
   --insights-width: 260px;
   --page-max-width: 1040px;
+  --app-page-gradient: linear-gradient(to bottom, #ffffff, #fff7f0, #ffecd1);
   --space-xs: 8px;
   --space-sm: 12px;
   --space-md: 16px;

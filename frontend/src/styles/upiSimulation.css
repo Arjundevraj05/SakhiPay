@@ -1,32 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --theme-primary: #ff8c00;
+  --theme-secondary: #dc812e;
+  --theme-glow: rgba(255, 152, 0, 0.6);
+  --container-background: #fffdf8;
+  --text-primary: #333;
+  --text-secondary: #555;
+  --border-color: #ddd;
+}
+
 .upi-sim-wrapper {
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
-  padding: clamp(16px, 3vw, 28px);
+  padding: clamp(20px, 4vw, 30px);
   background: var(--container-background);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   font-family: 'Poppins', sans-serif;
   text-align: center;
 }
 
 .upi-sim-wrapper h2 {
-  font-size: var(--font-page-title);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 700;
   color: var(--theme-secondary);
-  margin-bottom: var(--space-lg);
+  margin-bottom: 20px;
 }
 
 .upi-sim-wrapper .upi-sim-container h3 {
-  font-size: var(--font-section-title);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 600;
   color: var(--theme-secondary);
   margin-bottom: 12px;
 }
 
 .upi-sim-wrapper .upi-sim-container p {
-  font-size: var(--font-body);
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: var(--space-lg);
+  margin-bottom: 20px;
   line-height: 1.6;
 }
 
@@ -35,7 +48,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-bottom: var(--space-lg);
+  margin-bottom: 24px;
 }
 
 .upi-sim-wrapper .simulation-mode-selector label {
@@ -43,13 +56,13 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 10px;
+  padding: 10px 20px;
+  border-radius: 12px;
   background: #ffffff;
   color: var(--theme-primary);
   border: 2px solid var(--theme-primary);
   font-weight: 500;
-  font-size: var(--font-body);
+  font-size: 0.95rem;
   transition: all 0.2s ease;
 }
 
@@ -57,17 +70,19 @@
   display: none;
 }
 
-.upi-sim-wrapper .simulation-mode-selector input[type="radio"]:checked + span {
+.upi-sim-wrapper .simulation-mode-selector label:has(input[type="radio"]:checked) {
   background: var(--theme-primary);
   color: #ffffff;
   font-weight: 600;
-  border-radius: 10px;
-  padding: 8px 16px;
-  border: 2px solid var(--theme-primary);
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.35);
+}
+
+.upi-sim-wrapper .simulation-mode-selector input[type="radio"]:checked + span {
+  color: #ffffff;
 }
 
 .upi-sim-wrapper .form-group {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   text-align: left;
 }
 
@@ -75,51 +90,58 @@
   display: block;
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 5px;
-  font-size: var(--font-body);
+  margin-bottom: 6px;
 }
 
 .upi-sim-wrapper input {
   width: 100%;
   padding: 12px;
-  font-size: var(--font-body);
+  font-size: 16px;
   border-radius: 8px;
   border: 2px solid var(--theme-primary);
-  font-family: "Poppins", sans-serif;
-  background: white;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+  background: #fff;
   outline: none;
+  box-sizing: border-box;
 }
 
 .upi-sim-wrapper input:focus {
-  box-shadow: 0 0 8px var(--theme-glow);
+  box-shadow: 0 0 10px var(--theme-glow);
+  border-color: var(--theme-primary);
 }
 
 .upi-sim-wrapper button {
   background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
-  color: white;
-  font-size: var(--font-body);
-  font-weight: 600;
-  padding: 12px 16px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 14px 20px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   display: block;
   width: 100%;
   margin-top: 16px;
+  text-align: center;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .upi-sim-wrapper button:hover {
+  background: linear-gradient(135deg, var(--theme-secondary), var(--theme-primary));
   transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
 }
 
 .upi-sim-wrapper .txn-card {
-  margin-top: var(--space-lg);
-  padding: clamp(16px, 3vw, 24px);
-  background: #ffffff;
-  border-radius: var(--radius-md);
+  margin-top: 24px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
   border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-card);
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .upi-sim-wrapper .txn-card svg {
@@ -138,44 +160,191 @@
   object-fit: cover;
 }
 
+.qr-scanner-panel {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid var(--theme-primary);
+  box-shadow: 0 4px 14px rgba(255, 140, 0, 0.15);
+}
+
+.qr-scanner-video {
+  width: 100%;
+  max-height: 320px;
+  min-height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #111;
+  margin-top: 0 !important;
+}
+
+.qr-scan-hint {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.qr-scan-error {
+  margin: 12px 0 0;
+  color: #c62828;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.qr-close-btn {
+  margin-top: 12px !important;
+  background: #fff !important;
+  color: var(--theme-primary) !important;
+  border: 2px solid var(--theme-primary) !important;
+  box-shadow: none !important;
+}
+
+.qr-close-btn:hover {
+  background: #fff7ef !important;
+  transform: none !important;
+}
+
+.sim-role-hint {
+  margin: -4px 0 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.upi-api-warning {
+  max-width: 620px;
+  margin: 0 auto 12px;
+}
+
+.payment-waiting {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--theme-secondary);
+}
+
+.txn-meta {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.txn-history {
+  margin-top: 28px;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.txn-history h4 {
+  margin: 0 0 12px;
+  color: var(--theme-secondary);
+  text-align: center;
+}
+
+.txn-history-empty {
+  margin: 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.txn-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.txn-history-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.txn-history-item:last-child {
+  border-bottom: none;
+}
+
+.txn-history-meta {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.txn-history-item.txn-success {
+  border-left: 3px solid #2e7d32;
+  padding-left: 10px;
+}
+
+.txn-history-item.txn-failed {
+  border-left: 3px solid #c62828;
+  padding-left: 10px;
+}
+
 .section-divider {
   border: 0;
-  border-top: 1px solid #eee;
-  margin: var(--space-md) 0;
+  border-top: 2px solid #eee;
+  margin: 18px 0;
 }
 
 .info-section {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: clamp(12px, 3vw, 24px);
-  margin: var(--space-lg) 0;
+  gap: clamp(16px, 3vw, 32px);
+  margin: 24px 0;
   flex-wrap: wrap;
 }
 
 .info-box {
   background: #fff;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  padding: clamp(14px, 2.5vw, 20px) clamp(20px, 4vw, 32px);
-  flex: 1 1 180px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 18px 28px;
+  flex: 1 1 200px;
   max-width: 100%;
   text-align: center;
   border: 1px solid #eee;
+  transition: all 0.2s ease;
+}
+
+.info-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
 .info-box h3 {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #555;
   margin-bottom: 8px;
 }
 
 .info-box p {
-  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-size: clamp(1.2rem, 2.5vw, 1.4rem);
   font-weight: 700;
   color: #111;
   margin: 0;
+}
+
+.vendor-info-card {
+  background: #fff8f0;
+  border: 1px solid #ffd9a8;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.vendor-info-card p {
+  margin: 6px 0;
+  color: var(--text-primary);
 }
 
 .txn-buttons {
@@ -187,7 +356,7 @@
 
 .txn-buttons button {
   width: auto;
-  flex: 1 1 140px;
+  flex: 1 1 160px;
   margin-top: 10px;
 }
 

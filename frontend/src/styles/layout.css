@@ -1,5 +1,8 @@
 .layout-container {
   min-height: 100vh;
+  background: var(--app-page-gradient);
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .main-content {

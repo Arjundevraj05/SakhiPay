@@ -2,9 +2,8 @@
 
 .budgeting-container {
   padding: clamp(16px, 3vw, 24px);
-  background: #f5f5f5;
+  background: transparent;
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
 }
 
 .budgeting {
@@ -107,9 +106,9 @@
   color: black;
 }
 
-.icon {
+.category-icon {
   font-size: 1.25rem;
-  color: rgba(255, 152, 0, 1);
+  color: #ff8c00;
   flex-shrink: 0;
 }
 

@@ -14,12 +14,12 @@ import {
 import { analyzeExpenses } from "../utils/analyzeExpenses";
 
 const categoryIcons = {
-  Food: <FaUtensils className="icon" />,
-  Transport: <FaBus className="icon" />,
-  Shopping: <FaShoppingCart className="icon" />,
-  Bills: <FaFileInvoice className="icon" />,
-  Entertainment: <FaFilm className="icon" />,
-  Other: <FaEllipsisH className="icon" />,
+  Food: <FaUtensils className="category-icon" />,
+  Transport: <FaBus className="category-icon" />,
+  Shopping: <FaShoppingCart className="category-icon" />,
+  Bills: <FaFileInvoice className="category-icon" />,
+  Entertainment: <FaFilm className="category-icon" />,
+  Other: <FaEllipsisH className="category-icon" />,
 };
 
 const Budgeting = () => {
