@@ -1,41 +1,95 @@
 .stats {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 60px 20px;
-    background: linear-gradient(135deg, #CE965A, #F2B77E);
-    text-align: center;
-    color: white;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: clamp(28px, 4vw, 40px) clamp(12px, 3vw, 20px);
+  background: linear-gradient(135deg, #CE965A, #F2B77E);
+  text-align: center;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 12px;
 }
 
 .stat-item {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  padding: clamp(16px, 3vw, 24px) clamp(10px, 2vw, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-/* Add a light vertical separator between items */
-.stat-item:not(:last-child) {
-    border-right: 2px solid rgba(255, 255, 255, 0.4);
+/* Dividers: vertical between columns */
+.stat-item:not(:nth-child(4n))::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  right: 0;
+  width: 1px;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .stat-item h2 {
-    font-size: 2.8rem;
-    margin-bottom: 5px;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin: 0 0 6px;
+  line-height: 1.2;
 }
 
 .stat-item p {
-    font-size: 1rem;
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
+  margin: 0;
+  line-height: 1.35;
+  max-width: 12rem;
 }
 
 .stat-icon {
-    font-size: 3rem;
-    color: white;
-    margin-bottom: 10px;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: white;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+/* Tablet: 2 × 2 grid */
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-item::after {
+    display: none;
+  }
+
+  .stat-item:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .stat-item:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 520px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .stat-item {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 20px 16px;
+  }
+
+  .stat-item:last-child {
+    border-bottom: none;
+  }
+
+  .stat-item p {
+    max-width: none;
+  }
 }

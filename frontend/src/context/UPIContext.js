@@ -5,7 +5,7 @@ const UpiContext = createContext();
 
 export const UpiProvider = ({ children }) => {
   // Logged-in user VPA
-  const [currentVpa, setCurrentVpa] = useState("arjun@sakhipay");
+  const [currentVpa] = useState("arjun@sakhipay");
 
   // User balance
   const [balance, setBalance] = useState(5000);

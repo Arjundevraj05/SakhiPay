@@ -1,76 +1,85 @@
 .features {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    padding: 60px 20px;
-    background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 40px);
+  padding: clamp(32px, 5vw, 48px) clamp(16px, 4vw, 24px);
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .features-content {
-    max-width: 500px;
-    flex: 1;
+  max-width: 520px;
+  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 .features-content h2 {
-    font-size: 2rem;
-    color: #ff9800;
-    margin-bottom: 15px;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: #ff9800;
+  margin-bottom: 12px;
 }
 
 .features-content p {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 20px;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  color: #333;
+  margin-bottom: 16px;
+  line-height: 1.6;
 }
 
 .features-content ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .features-content li {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  margin-bottom: 10px;
+  color: #333;
+  gap: 8px;
 }
 
 .feature-icon {
-    font-size: 1.5rem;
-    color: #ff9800 !important;
-    margin-right: 10px;
+  font-size: 1.25rem;
+  color: #ff9800 !important;
+  flex-shrink: 0;
 }
 
 .features-image {
-    max-width: 25%; 
-    flex-shrink: 0; 
-    margin-left: 100px;
+  max-width: min(280px, 85vw);
+  width: 100%;
+  flex-shrink: 0;
+  margin: 0 auto;
 }
 
 .features-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .features {
-        flex-direction: column-reverse; 
-        text-align: center;
-    }
+@media (min-width: 900px) {
+  .features {
+    flex-direction: row;
+    text-align: left;
+    background: transparent;
+  }
 
-    .features-content {
-        max-width: 100%;
-    }
+  .features-content li {
+    justify-content: flex-start;
+  }
 
-    .features-content li {
-        justify-content: center;
-    }
-
-    .features-image {
-        max-width: 60%; 
-    }
+  .features-image {
+    max-width: 38%;
+    margin: 0;
+  }
 }

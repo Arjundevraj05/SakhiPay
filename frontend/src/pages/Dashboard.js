@@ -5,7 +5,7 @@ import FeatureCards from "../components/FeatureCards";
 
 const Dashboard = () => {
   return (
-    <>
+    <div className="dashboard-page">
       {/* Header */}
       <div className="header">
         <HeaderBox />
@@ -26,7 +26,7 @@ const Dashboard = () => {
       <div className="cards-container">
         <FeatureCards/>
       </div>
-    </>
+    </div>
   );
 };
 

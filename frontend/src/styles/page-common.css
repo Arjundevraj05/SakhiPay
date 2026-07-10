@@ -1,0 +1,154 @@
+:root {
+  --sidebar-width: 240px;
+  --insights-width: 260px;
+  --page-max-width: 1040px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --font-page-title: clamp(1.5rem, 2.5vw, 2rem);
+  --font-section-title: clamp(1.125rem, 2vw, 1.35rem);
+  --font-body: clamp(0.875rem, 1.5vw, 1rem);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Shared page shell for all dashboard routes */
+.page-shell,
+.dashboard-page,
+.budgeting-container,
+.emi-container,
+.education_page,
+.scheme_page,
+.upi-sim-wrapper {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Shared gradient page headers */
+.page-title-banner,
+.emi-header,
+.education_styled-header,
+.scheme_styled-header {
+  text-align: center;
+  padding: clamp(16px, 3vw, 20px);
+  margin-bottom: var(--space-lg);
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, #ff8c00, #ff5722);
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.page-title-banner h1,
+.page-title-banner h2,
+.emi-title,
+.education_styled-header,
+.scheme_styled-header {
+  margin: 0;
+  font-size: var(--font-page-title);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.page-title-banner p,
+.emi-subtitle {
+  margin: 6px 0 0;
+  font-size: var(--font-body);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Shared search / filter row */
+.page-search-row,
+.education_search-container,
+.scheme_search-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0 var(--space-lg);
+}
+
+.page-search-row input,
+.page-search-row select,
+.education_search-box,
+.education_category-select,
+.scheme_search-box,
+.scheme_category-select {
+  flex: 1 1 200px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #ff8c00;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-body);
+}
+
+/* Shared responsive grids */
+.page-grid-2,
+.emi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+}
+
+.page-grid-cards,
+.scheme_schemes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-lg);
+  justify-items: stretch;
+}
+
+.page-card,
+.emi-card,
+.scheme_scheme-card,
+.video-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* Horizontal scroll helper for wide tables */
+.table-scroll,
+.emi-schedule-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 900px) {
+  .page-grid-2,
+  .emi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-grid-cards,
+  .scheme_schemes-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-search-row input,
+  .page-search-row select,
+  .education_search-box,
+  .education_category-select,
+  .scheme_search-box,
+  .scheme_category-select {
+    flex: 1 1 100%;
+  }
+}

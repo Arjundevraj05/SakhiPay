@@ -1,14 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import io from "socket.io-client";
 import { useUpi } from "../context/UPIContext";
 import { QRCodeCanvas } from "qrcode.react";
 import "../styles/upiSimulation.css";
 import { BrowserMultiFormatReader } from "@zxing/library";
 import PaymentResult from "../components/PaymentResult";
-
-
-
-const socket = io("http://localhost:4000");
 
 // --- SUCCESS / FAILURE sounds ---
 const successSound = new Audio("/success.mp3");
@@ -16,7 +11,7 @@ const successSound = new Audio("/success.mp3");
 //////////////////////////////////////////
 // VendorSimulation
 const VendorSimulation = () => {
-  const { currentVpa, balance, setBalance, transactions, setTransactions } = useUpi();
+  const { currentVpa, balance, setBalance } = useUpi();
   const [amount, setAmount] = useState("");
   const [txnId, setTxnId] = useState("");
   const [showQr, setShowQr] = useState(false);
@@ -110,7 +105,7 @@ const VendorSimulation = () => {
 //////////////////////////////////////////
 // CustomerSimulation
 const CustomerSimulation = () => {
-  const { currentVpa, balance, setBalance, transactions, setTransactions } = useUpi();
+  const { currentVpa, balance, setBalance, setTransactions } = useUpi();
 
   const videoRef = useRef(null);
   const [scanMode, setScanMode] = useState(false);

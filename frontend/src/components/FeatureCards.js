@@ -1,5 +1,18 @@
 import React from "react";
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  LineChart,
+  Line,
+  ResponsiveContainer,
+} from "recharts";
 import { FaWallet, FaMoneyBillWave } from "react-icons/fa";
 import "../styles/FeatureCards.css";
 
@@ -54,36 +67,48 @@ const FeatureCards = () => {
       <div className="chart-container-wrapper">
         <div className="bar-chart-container">
           <h2 className="chart-heading">Monthly Expenditure</h2>
-          <BarChart width={400} height={250} data={barData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="expenditure" fill="#FF8C00" />
-          </BarChart>
+          <div className="chart-responsive">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={barData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="expenditure" fill="#FF8C00" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         <div className="line-chart-container">
           <h2 className="chart-heading">Balance Trend</h2>
-          <LineChart width={400} height={250} data={lineData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="balance" stroke="#0088FE" />
-          </LineChart>
+          <div className="chart-responsive">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={lineData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="balance" stroke="#0088FE" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         <div className="chart-container">
           <h2 className="chart-heading">Expense Breakdown</h2>
-          <PieChart width={280} height={280}>
-            <Pie data={expenseData} dataKey="value" cx="50%" cy="50%" innerRadius={80} outerRadius={120}>
-              {expenseData.map((entry, index) => (
-                <Cell key={index} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
+          <div className="chart-responsive">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={expenseData} dataKey="value" cx="50%" cy="50%" innerRadius={60} outerRadius={90}>
+                  {expenseData.map((entry, index) => (
+                    <Cell key={index} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
 
           {/* Expense Key */}
           <div className="expense-key">

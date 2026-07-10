@@ -120,42 +120,48 @@ const Budgeting = () => {
 
   const uploadReceipt = async () => {
     if (!receiptFile) return;
-    
+
     setUploading(true);
     try {
-      // Get presigned URL
-      const response = await fetch(`http://localhost:4000/api/s3/presign?filename=${encodeURIComponent(receiptFile.name)}&contentType=${receiptFile.type}`);
-      const { url, key, publicUrl } = await response.json();
-      
-      // Upload file to S3
-      await fetch(url, {
-        method: 'PUT',
-        body: receiptFile,
-        headers: {
-          'Content-Type': receiptFile.type,
-        },
-      });
-      
-      // Add to uploaded receipts list
+      let publicUrl = null;
+
+      const response = await fetch(
+        `/api/s3/presign?filename=${encodeURIComponent(receiptFile.name)}&contentType=${encodeURIComponent(receiptFile.type)}`
+      );
+
+      if (response.ok) {
+        const { url, publicUrl: s3Url } = await response.json();
+        const uploadResponse = await fetch(url, {
+          method: "PUT",
+          body: receiptFile,
+          headers: { "Content-Type": receiptFile.type },
+        });
+        if (!uploadResponse.ok) {
+          throw new Error("S3 upload failed");
+        }
+        publicUrl = s3Url;
+      } else {
+        // Local fallback when S3 is not configured
+        publicUrl = URL.createObjectURL(receiptFile);
+      }
+
       const newReceipt = {
         id: Date.now(),
         name: receiptFile.name,
         url: publicUrl,
         uploadedAt: new Date().toLocaleString(),
       };
-      
+
       const updatedReceipts = [newReceipt, ...uploadedReceipts];
       setUploadedReceipts(updatedReceipts);
-      localStorage.setItem('uploadedReceipts', JSON.stringify(updatedReceipts));
+      localStorage.setItem("uploadedReceipts", JSON.stringify(updatedReceipts));
       setReceiptFile(null);
-      
-      // Clear file input
-      const fileInput = document.getElementById('receipt-upload');
-      if (fileInput) fileInput.value = '';
-      
+
+      const fileInput = document.getElementById("receipt-upload");
+      if (fileInput) fileInput.value = "";
     } catch (error) {
-      console.error('Upload error:', error);
-      alert('Failed to upload receipt');
+      console.error("Upload error:", error);
+      alert("Failed to upload receipt");
     } finally {
       setUploading(false);
     }

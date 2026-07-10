@@ -20,15 +20,15 @@ const Landing = () => {
     }, []);
 
     return (
-        <>
+        <div className="landing-page">
             <Navbar />
-            <section data-aos="fade-up"><Hero /></section>
+            <section id="hero" data-aos="fade-up"><Hero /></section>
             <section data-aos="fade-up"><Stats /></section>
-            <section data-aos="fade-up"><Features /></section>
-            <section data-aos="fade-up"><HowItWorks /></section>
-            <section data-aos="fade-up"><Testimonials /></section>
+            <section id="features" data-aos="fade-up"><Features /></section>
+            <section id="how-it-works" data-aos="fade-up"><HowItWorks /></section>
+            <section id="testimonials" data-aos="fade-up"><Testimonials /></section>
             <Footer />
-        </>
+        </div>
     );
 };
 

@@ -1,25 +1,50 @@
 .layout-container {
-    display: flex;
-    height: 100vh;
-    margin-left: 50px;
+  min-height: 100vh;
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  margin-right: var(--insights-width);
+  padding: clamp(16px, 2.5vw, 24px);
+  min-height: 100vh;
+  min-width: 0;
+  width: auto;
+  overflow-x: hidden;
+}
+
+/* Large tablets / small laptops — hide insights for more content room */
+@media (max-width: 1200px) {
+  :root {
+    --insights-width: 0px;
   }
-  
-  .sidebar {
-    width: 250px;
-    background: #ff8c00;
-    color: white;
-    padding: 20px;
-  }
-  
+
   .main-content {
-    flex: 1;
-    padding: 20px;
+    margin-right: 0;
   }
-  
+
   .insights-panel {
-    width: 250px;
-    background: #222;
-    color: white;
-    padding: 20px;
+    display: none;
   }
-  
+}
+
+/* Mobile — collapsible sidebar */
+@media (max-width: 1023px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding-top: 68px;
+    padding-left: clamp(12px, 3vw, 20px);
+    padding-right: clamp(12px, 3vw, 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding-top: 64px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

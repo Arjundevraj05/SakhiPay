@@ -9,6 +9,7 @@ import Schemes from "./pages/Schemes";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import LandingPage from "./pages/Landing";
+import EMI from "./pages/EMI";
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
 // Handles conditional layout
   const MainRoutes = () => {
     const location = useLocation();
-    const showLayout = ["/dashboard", "/budgeting", "/education", "/upi_simulation", "/schemes"].includes(location.pathname);
+    const showLayout = ["/dashboard", "/budgeting", "/education", "/upi_simulation", "/schemes", "/emi"].includes(location.pathname);
 
     useEffect(() => {
     const scriptId = "google-translate-script";
@@ -65,6 +66,7 @@ const App = () => {
             <Route path="/education" element={<Education />} />
             <Route path="/upi_simulation" element={<UpiSimulation />} />
             <Route path="/schemes" element={<Schemes />} />
+            <Route path="/emi" element={<EMI />} />
           </Routes>
         </Layout>
       ) : (

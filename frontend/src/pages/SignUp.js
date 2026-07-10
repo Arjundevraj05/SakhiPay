@@ -3,7 +3,7 @@
 import { useState } from "react";
 import authService from "../appwrite/auth.js";
 import { Link } from "react-router-dom";
-import { Mail, Lock, Eye, EyeOff, User, CheckCircle } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, User, CheckCircle, ArrowLeft } from "lucide-react";
 import "../styles/Auth.css";
 
 function SignUp() {
@@ -29,6 +29,9 @@ function SignUp() {
   return (
     <div className="outer-container">
       <div className="auth-container">
+        <Link to="/" className="auth-back-link" aria-label="Back to home">
+          <ArrowLeft className="auth-back-icon" aria-hidden="true" />
+        </Link>
         {/* Left Section */}
         <div className="auth-left">
           <h2>CREATE AN ACCOUNT</h2>

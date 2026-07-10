@@ -1,5 +1,5 @@
 import React from "react";
-import { Bell, Calendar, Lightbulb, Mic, Globe } from "lucide-react";
+import { Bell, Calendar } from "lucide-react";
 import "../styles/insights.css"; 
 
 const InsightsPanel = () => {

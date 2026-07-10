@@ -1,0 +1,235 @@
+.emi-container {
+  padding: 0;
+}
+
+.emi-header {
+  text-align: center;
+}
+
+.emi-title {
+  color: #ffffff;
+}
+
+.emi-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.emi-grid {
+  margin-bottom: var(--space-lg);
+}
+
+.emi-card {
+  padding: clamp(16px, 3vw, 20px);
+}
+
+.emi-card-title {
+  font-size: var(--font-section-title);
+  color: #2d3748;
+  margin: 0 0 16px;
+}
+
+.emi-form {
+  display: grid;
+  gap: 12px;
+}
+
+.emi-form label {
+  display: grid;
+  gap: 6px;
+  font-size: var(--font-body);
+}
+
+.emi-form input {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  width: 100%;
+}
+
+.emi-form input:focus {
+  border-color: #ff8c00;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+}
+
+.emi-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .emi-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.emi-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff8c00, #ff5722);
+  color: #fff;
+  border-radius: 12px;
+}
+
+.emi-primary-btn {
+  background: linear-gradient(135deg, #ff8c00, #ff5722);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.emi-secondary-btn {
+  background: #ffffff;
+  color: #ff5722;
+  border: 1px solid #ff5722;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.emi-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.emi-list-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.emi-list-item.active {
+  border-color: #ff8c00;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+}
+
+.emi-list-button {
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.emi-list-title {
+  margin: 0;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: var(--font-body);
+}
+
+.emi-list-meta {
+  margin: 2px 0 0;
+  color: #4a5568;
+  font-size: 0.85rem;
+  word-break: break-word;
+}
+
+.emi-delete {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #e53e3e;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.emi-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.emi-detail-sub {
+  margin: 4px 0 0;
+  color: #4a5568;
+  font-size: var(--font-body);
+}
+
+.emi-schedule {
+  margin-top: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.emi-schedule.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.emi-schedule-head,
+.emi-schedule-row {
+  display: grid;
+  grid-template-columns: 36px 100px 90px 90px 90px 100px 90px;
+  gap: 8px;
+  padding: 10px 12px;
+  min-width: 640px;
+}
+
+.emi-schedule-head {
+  background: #f7fafc;
+  color: #4a5568;
+  border-bottom: 1px solid #e2e8f0;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.emi-schedule-body {
+  max-height: 360px;
+  overflow: auto;
+}
+
+.emi-schedule-row {
+  font-size: 0.85rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.emi-schedule-row:last-child {
+  border-bottom: none;
+}
+
+.emi-status {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.emi-status.upcoming {
+  background: #fffaf0;
+  color: #b7791f;
+}
+
+.emi-status.paid {
+  background: #f0fff4;
+  color: #2f855a;
+}
+
+.emi-status.overdue {
+  background: #fff5f5;
+  color: #e53e3e;
+}
+
+.emi-empty {
+  color: #4a5568;
+  font-size: var(--font-body);
+  margin: 0;
+}

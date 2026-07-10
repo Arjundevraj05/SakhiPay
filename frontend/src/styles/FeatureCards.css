@@ -2,160 +2,153 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem;
-  background: transparent;
+  padding: clamp(12px, 2vw, 24px) 0;
   width: 100%;
 }
 
 .feature_heading {
   color: #b66401;
-  font-size: 3.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-family: 'Poppins', serif;
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-md);
   text-align: center;
 }
 
-
 .feature-cards {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
+  gap: var(--space-md);
   width: 100%;
-  margin-top: 1.5rem;
 }
 
 .feature-card {
   background: white;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  border: 3px solid #FF8C00; 
-  transition: all 0.3s ease-in-out;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 2px solid #FF8C00;
+  transition: box-shadow 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  text-align: center;
-  flex: 0 1 280px;
-  height: 120px;
-  box-shadow: 0px 3px 8px rgba(255, 140, 0, 0.3);
+  justify-content: center;
+  flex: 1 1 240px;
+  max-width: 100%;
+  min-height: 110px;
+  box-shadow: var(--shadow-card);
 }
 
-/* Glowing effect on hover */
 .feature-card:hover {
-  box-shadow: 0px 4px 20px rgba(255, 140, 0, 0.6);
-  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(255, 140, 0, 0.25);
+  transform: none;
 }
 
-.h2_heading{
-  font-family:'Poppins',serif;
+.h2_heading {
+  font-family: 'Poppins', serif;
+  font-size: var(--font-body);
+  margin: 0;
 }
+
 .feature-icon {
-  font-size: 10rem;
+  font-size: 2rem;
   color: #FF8C00;
+  flex-shrink: 0;
 }
-.inner-content{
-  display:flex;
+
+.inner-content {
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 50px;
+  gap: 12px;
+  width: 100%;
 }
+
 .amount {
-  font-size: 2rem;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   font-weight: bold;
   color: #333;
+  margin: 0;
 }
 
-/* Charts Wrapper */
 .chart-container-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
   width: 100%;
-  max-width: 1000px;
-  margin-top: 2rem;
-  align-items: stretch;
+  margin-top: var(--space-lg);
 }
 
-/* Chart Cards with Equal Heights */
 .chart-container,
 .bar-chart-container,
 .line-chart-container {
-  flex: 1 1 400px;
-  min-width: 380px;
-  max-width: 400px;
-  height: 380px; 
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  min-height: 320px;
   text-align: center;
   background: white;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  border: 3px solid #FF8C00;
-  box-shadow: 0px 3px 8px rgba(255, 140, 0, 0.3);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 2px solid #FF8C00;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-/* Glowing effect on chart cards */
 .chart-container:hover,
 .bar-chart-container:hover,
 .line-chart-container:hover {
-  box-shadow: 0px 5px 20px rgba(255, 140, 0, 0.6);
-  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(255, 140, 0, 0.2);
+  transform: none;
 }
 
-/* Properly Centered Pie Chart */
-.chart-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.chart-responsive {
+  width: 100%;
+  height: 220px;
+  flex: 1;
 }
 
-/* Ensuring chart headings are consistent */
 .chart-heading {
-  font-size: 2rem;
+  font-size: var(--font-section-title);
   color: #333;
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
-/* Bringing back the expense key */
 .expense-key {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 8px 12px;
+  margin-top: 12px;
 }
 
 .expense-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: #555;
 }
 
 .expense-color {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
-/* Responsive Fix */
-@media (max-width: 800px) {
+@media (max-width: 600px) {
   .feature-cards {
     flex-direction: column;
-    align-items: center;
-  }
-  
-  .feature-card {
-    width: 100%;
-    max-width: 400px;
+    align-items: stretch;
   }
 
-  .chart-container,
-  .bar-chart-container,
-  .line-chart-container {
-    min-width: 100%;
+  .feature-card {
+    flex: 1 1 auto;
+  }
+
+  .chart-container-wrapper {
+    grid-template-columns: 1fr;
   }
 }

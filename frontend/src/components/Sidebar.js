@@ -9,7 +9,6 @@ import {
   MenuAlt2Icon,
   XIcon,
   UserCircleIcon,
-  LogoutIcon,
 } from "@heroicons/react/outline";
 import authenticationService from "../appwrite/auth"; 
 import "../styles/sidebar.css";
@@ -26,14 +25,15 @@ const Sidebar = () => {
     { name: "Education", icon: BookOpenIcon, href: "/education" },
     { name: "Schemes", icon: ClipboardListIcon, href: "/schemes" },
     { name: "UPI Simulation", icon: QrcodeIcon, href: "/upi_simulation" },
+    { name: "EMI Manager", icon: CreditCardIcon, href: "/emi" },
   ];
 
   // Fetch current user data on mount
   useEffect(() => {
     async function fetchUser() {
       try {
-        const user = await authenticationService.getUser();
-        if (user) setUsername(user.name); // Assuming `user.name` holds the username
+        const user = await authenticationService.getCurrentUser();
+        if (user) setUsername(user.name);
       } catch (error) {
         console.error("Failed to fetch user:", error);
       }
@@ -43,6 +43,7 @@ const Sidebar = () => {
 
   const handleNavigation = (item, href) => {
     setActiveItem(item);
+    setIsOpen(false);
     navigate(href);
   };
 
@@ -66,6 +67,15 @@ const Sidebar = () => {
           <span className="logo-text">Sakhi Pay</span>
         </div>
       </div>
+
+      {isOpen && (
+        <button
+          type="button"
+          className="sidebar-backdrop"
+          onClick={() => setIsOpen(false)}
+          aria-label="Close sidebar"
+        />
+      )}
 
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-content">
@@ -91,14 +101,14 @@ const Sidebar = () => {
           </nav>
 
           <div className="sidebar-bottom">
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
             <div className="user-profile">
               <UserCircleIcon className="user-icon" />
               <div>
                 <p className="username"><span>{username}</span></p>
-                <a href="#" className="profile-link">View Profile</a>
+                <a href="/dashboard" className="profile-link">View Profile</a>
               </div>
             </div>
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
           </div>
         </div>
       </aside>

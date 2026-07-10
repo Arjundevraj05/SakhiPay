@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import authService from "../appwrite/auth.js";
-import { Mail, Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, CheckCircle, ArrowLeft } from "lucide-react";
 import "../styles/Auth.css";
 
 function SignIn() {
@@ -27,6 +27,9 @@ function SignIn() {
   return (
     <div className="outer-container">
       <div className="auth-container">
+        <Link to="/" className="auth-back-link" aria-label="Back to home">
+          <ArrowLeft className="auth-back-icon" aria-hidden="true" />
+        </Link>
         {/* Left Side - Form */}
         <div className="auth-left">
           <h2>WELCOME BACK!</h2>
